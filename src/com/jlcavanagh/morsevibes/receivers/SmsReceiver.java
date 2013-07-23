@@ -16,9 +16,9 @@ import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
-public class TextReceiver extends BroadcastReceiver {
+public class SmsReceiver extends BroadcastReceiver {
 
-    private static final String TAG = TextReceiver.class.getSimpleName();
+    private static final String TAG = SmsReceiver.class.getSimpleName();
 
     //FIXME: Make these configurable
     private static final int SHORT = 250;
