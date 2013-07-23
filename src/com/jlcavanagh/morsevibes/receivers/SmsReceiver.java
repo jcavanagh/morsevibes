@@ -6,11 +6,13 @@ import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
@@ -19,11 +21,6 @@ import android.util.Log;
 public class SmsReceiver extends BroadcastReceiver {
 
     private static final String TAG = SmsReceiver.class.getSimpleName();
-
-    //FIXME: Make these configurable
-    private static final int SHORT = 250;
-    private static final int LONG = 500;
-    private static final int PAUSE = 20;
 
     private static final HashMap<Character, String> morse;
 
@@ -73,6 +70,14 @@ public class SmsReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "onReceive called");
 
+        //Load preferences
+        final int SHORT, LONG, PAUSE;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SHORT = prefs.getInt("pref_short_vibe_duration", 250);
+        LONG = prefs.getInt("pref_short_vibe_duration", 500);
+        PAUSE = prefs.getInt("pref_short_vibe_duration", 50);
+
+        //Get the vibes rollin'
         Vibrator v = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
         Bundle extra = intent.getExtras();
         SmsMessage[] msgs;

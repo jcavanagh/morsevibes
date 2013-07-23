@@ -1,10 +1,10 @@
 package com.jlcavanagh.morsevibes;
 
 import android.os.Bundle;
-import android.app.Activity;
+import android.preference.PreferenceActivity;
 import android.view.Menu;
 
-public class MorseVibes extends Activity {
+public class MorseVibes extends PreferenceActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

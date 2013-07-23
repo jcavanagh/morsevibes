@@ -3,6 +3,10 @@
 
     <string name="app_name">morsevibes</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
 
+    <string name="pref_vibration_category">Vibration Settings</string>
+    <string name="pref_short_vibe_duration">Short Vibration Duration (ms)</string>
+    <string name="pref_long_vibe_duration">Long Vibration Duration (ms)</string>
+    <string name="pref_pause_duration">Pause Duration (ms)</string>
+    <string name="pref_pause_duration_summary">Time to wait between each short/long code</string>
 </resources>
