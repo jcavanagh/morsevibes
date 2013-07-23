@@ -6,9 +6,13 @@ import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.provider.BaseColumns;
+import android.provider.ContactsContract;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
@@ -89,6 +93,30 @@ public class TextReceiver extends BroadcastReceiver {
 
                 Log.d(TAG, "msgFrom: " + msgFrom);
                 Log.d(TAG, "msgBody: " + msgBody);
+
+                //Pull the contact by phone number
+                if(msgFrom != null) {
+                    Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(msgFrom));
+                    String name = "";
+
+                    ContentResolver contentResolver = context.getContentResolver();
+                    Cursor contactLookup = contentResolver.query(uri, new String[] {BaseColumns._ID,
+                            ContactsContract.PhoneLookup.DISPLAY_NAME }, null, null, null);
+
+                    try {
+                        if (contactLookup != null && contactLookup.getCount() > 0) {
+                            contactLookup.moveToNext();
+                            name = contactLookup.getString(contactLookup.getColumnIndex(ContactsContract.Data.DISPLAY_NAME));
+                            //String contactId = contactLookup.getString(contactLookup.getColumnIndex(BaseColumns._ID));
+                        } else {
+                            Log.d(TAG, "Could not find contact for phone: " + msgFrom);
+                        }
+                    } finally {
+                        if (contactLookup != null) {
+                            contactLookup.close();
+                        }
+                    }
+                }
             } catch(Exception e){
                 Log.d(TAG, e.getMessage());
             }
