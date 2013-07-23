@@ -1,0 +1,22 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory 
+        android:title="@string/pref_vibration_category"
+        android:key="pref_vibration_category">
+        <EditTextPreference
+            android:title="@string/pref_short_vibe_duration"
+            android:key="pref_short_vibe_duration"
+            android:numeric="integer"
+            android:defaultValue="250" />
+        <EditTextPreference 
+            android:title="@string/pref_long_vibe_duration"
+            android:key="pref_long_vibe_duration"
+            android:numeric="integer"
+            android:defaultValue="500" />
+        <EditTextPreference
+            android:title="@string/pref_pause_duration"
+            android:key="pref_pause_duration"
+            android:numeric="integer"
+            android:summary="@string/pref_pause_duration_summary"            
+            android:defaultValue="50" /> 
+    </PreferenceCategory>
+</PreferenceScreen>
