@@ -7,6 +7,9 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 
+import android.os.Bundle;
+import android.os.Vibrator;
+import android.telephony.SmsMessage;
 import android.util.Log;
 
 public class TextReceiver extends BroadcastReceiver {
@@ -65,5 +68,30 @@ public class TextReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d(TAG, "onReceive called");
+
+        Vibrator v = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
+        Bundle extra = intent.getExtras();
+        SmsMessage[] msgs;
+        String msgFrom = "", msgBody = "";
+
+        if (extra != null) {
+            try {
+                //Assemble message from this insanity
+                Object[] pdus = (Object[]) extra.get("pdus");
+                msgs = new SmsMessage[pdus.length];
+
+                //Assemble each chunk into a single message
+                for(int i=0; i<msgs.length; i++){
+                    msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
+                    msgFrom = msgs[i].getOriginatingAddress();
+                    msgBody += msgs[i].getMessageBody();
+                }
+
+                Log.d(TAG, "msgFrom: " + msgFrom);
+                Log.d(TAG, "msgBody: " + msgBody);
+            } catch(Exception e){
+                Log.d(TAG, e.getMessage());
+            }
+        }
     }
 }
